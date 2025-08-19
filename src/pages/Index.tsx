@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { DesktopIcon } from '@/components/DesktopIcon';
 import { MacWindow } from '@/components/MacWindow';
 import { MenuBar } from '@/components/MenuBar';
+import { CRTScreen } from '@/components/CRTScreen';
 
 const Index = () => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
-  const [folders, setFolders] = useState(['pawsitives', 'negaswiss']);
+  const [folders, setFolders] = useState(['This Love', 'I did something bad']);
 
   const openWindow = (windowId: string) => {
     if (!openWindows.includes(windowId)) {
@@ -20,7 +21,7 @@ const Index = () => {
   // Create audio context for sound effects
   const playSound = (frequency: number, duration: number = 200) => {
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
@@ -40,15 +41,15 @@ const Index = () => {
     }
   };
 
-  const handlePawsitivesOpen = () => {
+  const handleThisLoveOpen = () => {
     // Play sound fx 1 - cheerful notification sound
     playSound(523.25, 150); // C5
     setTimeout(() => playSound(659.25, 150), 100); // E5
     setTimeout(() => playSound(783.99, 200), 200); // G5
-    openWindow('pawsitives');
+    openWindow('This Love');
   };
 
-  const handleNegaswissDelete = () => {
+  const handleIDidSomethingBadDelete = () => {
     // Play sound fx 2 - retro computer beep sequence  
     playSound(800, 100);
     setTimeout(() => playSound(600, 100), 120);
@@ -60,7 +61,7 @@ const Index = () => {
 
   const confirmDeletion = () => {
     // Actually remove the folder after confirmation
-    setFolders(folders.filter(folder => folder !== 'negaswiss'));
+    setFolders(folders.filter(folder => folder !== 'I did something bad'));
     closeWindow('deleteConfirm');
   };
 
@@ -70,49 +71,29 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen bg-background overflow-hidden">
-      <MenuBar />
-      
-      {/* Desktop */}
-      <div className="h-full p-4 relative">
-        {/* Custom Folders - Upper Right */}
-        <div className="absolute top-4 right-4 space-y-4">
-          <DesktopIcon
-            icon="📁"
-            label="PROYECTOS"
-            onClick={() => openWindow('projects')}
-          />
-          <DesktopIcon
-            icon="🎨"
-            label="DISEÑOS"
-            onClick={() => openWindow('designs')}
-          />
-          <DesktopIcon
-            icon="💖"
-            label="SOCIAL LIFE"
-            onClick={() => openWindow('social')}
-          />
-          <DesktopIcon
-            icon="💻"
-            label="ABOUT ME"
-            onClick={() => openWindow('about')}
-          />
-          
+    <div className="h-screen p-0">
+      <CRTScreen intensity="medium">
+        <MenuBar />
+        
+                {/* Desktop */}
+        <div className="h-full p-4 relative">
+          {/* Custom Folders - Mobile Grid / Desktop Absolute */}
+          <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-0 md:absolute md:top-4 md:right-4 md:space-y-4">          
           {/* Custom folders with sound effects */}
-          {folders.includes('pawsitives') && (
+          {folders.includes('This Love') && (
             <DesktopIcon
-              icon="🐾"
-              label="pawsitives"
-              onClick={handlePawsitivesOpen}
+              icon="📁"
+              label="This Love"
+              onClick={handleThisLoveOpen}
               isFolder={true}
               className="sound-folder"
             />
           )}
-          {folders.includes('negaswiss') && (
+          {folders.includes('I did something bad') && (
             <DesktopIcon
-              icon="🗑️"
-              label="negaswiss"
-              onClick={handleNegaswissDelete}
+              icon="📁"
+              label="I did something bad"
+              onClick={handleIDidSomethingBadDelete}
               isFolder={true}
               className="sound-folder"
             />
@@ -125,11 +106,11 @@ const Index = () => {
             title="Proyectos web" 
             width="w-80" 
             height="h-96"
-            className="absolute top-20 left-20"
+            className="hidden md:block md:absolute md:top-20 md:left-20"
             onClose={() => closeWindow('projects')}
           >
             <div className="space-y-2 text-sm">
-              <div className="font-bold mb-3">🚀 Mis Proyectos:</div>
+              <div className="font-bold mb-3 crt-text">🚀 Mis Proyectos:</div>
               <div>• Coduck - Innovación en Mantenimiento Web</div>
               <div>• Delirium - Experiencia Digital</div>
               <div>• UCM - Plataforma Universitaria</div>
@@ -151,13 +132,13 @@ const Index = () => {
             title="About Me" 
             width="w-96" 
             height="h-80"
-            className="absolute top-40 left-40"
+            className="hidden md:block md:absolute md:top-40 md:left-40"
             onClose={() => closeWindow('about')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center mb-4">
                 <div className="text-2xl mb-2">👨‍💻</div>
-                <div className="font-bold">Rafa Heras</div>
+                <div className="font-bold crt-text">Rafa Heras</div>
                 <div className="text-muted-foreground">Full Stack Developer</div>
               </div>
               
@@ -180,31 +161,32 @@ const Index = () => {
           </MacWindow>
         )}
 
-        {openWindows.includes('pawsitives') && (
+        {openWindows.includes('This Love') && (
           <MacWindow 
-            title="🐾 Pawsitives Collection" 
+            title="💕 This Love Collection" 
             width="w-80" 
             height="h-72"
-            className="absolute top-60 left-60"
-            onClose={() => closeWindow('pawsitives')}
+            className="hidden md:block md:absolute md:top-60 md:left-60"
+            onClose={() => closeWindow('This Love')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
-                <div className="text-4xl mb-2">🐕🐱</div>
-                <div className="font-bold">Positive Vibes Only!</div>
+                <div className="text-4xl mb-2">💕✨</div>
+                <div className="font-bold">"This love is good, this love is bad"</div>
+                <div className="text-xs text-muted-foreground">This love is alive, back from the dead</div>
               </div>
               
               <div className="bg-muted p-3 rounded border">
                 <div className="text-xs space-y-1">
-                  <div>🎵 Happy Paws Melody</div>
-                  <div>🎵 Cheerful Tail Wag Sound</div>
-                  <div>🎵 Purr-fect Notification</div>
-                  <div>🎵 Playful Bark Sequence</div>
+                  <div>🎵 This Love - 1989</div>
+                  <div>🎵 Good vibes only</div>
+                  <div>🎵 Loving melodies</div>
+                  <div>🎵 Positive energy</div>
                 </div>
               </div>
 
               <div className="text-center text-xs text-muted-foreground">
-                Pawsitive sounds activated! 🎉
+                This love is alive! 💕
               </div>
             </div>
           </MacWindow>
@@ -212,16 +194,16 @@ const Index = () => {
 
         {openWindows.includes('deleteConfirm') && (
           <MacWindow 
-            title="🗑️ Delete Confirmation" 
+            title="😈 Delete Confirmation" 
             width="w-80" 
             height="h-56"
-            className="absolute top-80 left-80"
+            className="hidden md:block md:absolute md:top-80 md:left-80"
             onClose={cancelDeletion}
           >
             <div className="space-y-4 text-sm">
               <div className="text-center">
                 <div className="text-4xl mb-2">⚠️</div>
-                <div className="font-bold">Delete "negaswiss" folder?</div>
+                <div className="font-bold">Delete "I did something bad" folder?</div>
               </div>
               
               <div className="bg-yellow-100 border border-yellow-400 p-3 rounded text-xs text-center">
@@ -245,7 +227,136 @@ const Index = () => {
             </div>
           </MacWindow>
         )}
-      </div>
+
+        {/* Mobile Windows - Centered Modals */}
+        {openWindows.includes('projects') && (
+          <MacWindow 
+            title="Proyectos web" 
+            width="w-full" 
+            height="h-auto"
+            className="md:hidden"
+            onClose={() => closeWindow('projects')}
+          >
+            <div className="space-y-2 text-sm">
+              <div className="font-bold mb-3 crt-text">🚀 Mis Proyectos:</div>
+              <div>• Coduck - Innovación en Mantenimiento Web</div>
+              <div>• Delirium - Experiencia Digital</div>
+              <div>• UCM - Plataforma Universitaria</div>
+              <div>• MadMusic - Plataforma Musical</div>
+              <div>• Hysteria - Proyecto Creative</div>
+              <div>• DQ - Desarrollo Web</div>
+              <div>• Ibercésped - E-commerce</div>
+              <div>• Cociline - Aplicación Culinaria</div>
+              <div>• Zambra - Desarrollo Cultural</div>
+              <div>• Deep Data - Análisis de Datos</div>
+              <div>• Pragma - Soluciones Tech</div>
+              <div>• Súper Express - Logística Digital</div>
+            </div>
+          </MacWindow>
+        )}
+
+        {openWindows.includes('about') && (
+          <MacWindow 
+            title="About Me" 
+            width="w-full" 
+            height="h-auto"
+            className="md:hidden"
+            onClose={() => closeWindow('about')}
+          >
+            <div className="space-y-3 text-sm">
+              <div className="text-center mb-4">
+                <div className="text-2xl mb-2">👨‍💻</div>
+                <div className="font-bold crt-text">Rafa Heras</div>
+                <div className="text-muted-foreground">Full Stack Developer</div>
+              </div>
+              
+              <div className="bg-muted p-3 rounded border">
+                <div className="font-mono text-xs">
+                  <div>CPU: Intel Comedy i7 500 MHz</div>
+                  <div>RAM: 640K System (But who needs more?)</div>
+                  <div>Cache: 256K SRAM Passed</div>
+                  <div>Status: BIOS Shadowed ✓</div>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="bg-yellow-200 border border-yellow-400 p-2 rounded text-xs">
+                  ⚠️ ¿Estás seguro de lo que vas a hacer?<br/>
+                  Yo que tú no lo haría... El que avisa no es traidor
+                </div>
+              </div>
+            </div>
+          </MacWindow>
+        )}
+
+        {openWindows.includes('This Love') && (
+          <MacWindow 
+            title="💕 This Love Collection" 
+            width="w-full" 
+            height="h-auto"
+            className="md:hidden"
+            onClose={() => closeWindow('This Love')}
+          >
+            <div className="space-y-3 text-sm">
+              <div className="text-center">
+                <div className="text-4xl mb-2">💕✨</div>
+                <div className="font-bold">"This love is good, this love is bad"</div>
+                <div className="text-xs text-muted-foreground">This love is alive, back from the dead</div>
+              </div>
+              
+              <div className="bg-muted p-3 rounded border">
+                <div className="text-xs space-y-1">
+                  <div>🎵 This Love - 1989</div>
+                  <div>🎵 Good vibes only</div>
+                  <div>🎵 Loving melodies</div>
+                  <div>🎵 Positive energy</div>
+                </div>
+              </div>
+
+              <div className="text-center text-xs text-muted-foreground">
+                This love is alive! 💕
+              </div>
+            </div>
+          </MacWindow>
+        )}
+
+        {openWindows.includes('deleteConfirm') && (
+          <MacWindow 
+            title="😈 Delete Confirmation" 
+            width="w-full" 
+            height="h-auto"
+            className="md:hidden"
+            onClose={cancelDeletion}
+          >
+            <div className="space-y-4 text-sm">
+              <div className="text-center">
+                <div className="text-4xl mb-2">⚠️</div>
+                <div className="font-bold">Delete "I did something bad" folder?</div>
+              </div>
+              
+              <div className="bg-yellow-100 border border-yellow-400 p-3 rounded text-xs text-center">
+                This action cannot be undone. The folder will be permanently deleted.
+              </div>
+
+              <div className="flex space-x-2 justify-center">
+                <button 
+                  className="btn-retro text-xs px-3 py-1"
+                  onClick={cancelDeletion}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="btn-retro text-xs px-3 py-1 bg-destructive text-destructive-foreground"
+                  onClick={confirmDeletion}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </MacWindow>
+        )}
+        </div>
+      </CRTScreen>
     </div>
   );
 };

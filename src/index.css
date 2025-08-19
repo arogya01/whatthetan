@@ -1,36 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&display=swap');
 
 /* Retro Mac OS Design System */
 @layer base {
   :root {
     /* Retro Mac Colors */
-    --retro-bg: 202 4% 75%;
-    --retro-bg-light: 202 8% 85%;
-    --retro-border-dark: 202 8% 45%;
-    --retro-border-light: 202 12% 95%;
+    --retro-bg: 0 0% 100%;
+    --retro-bg-light: 0 0% 98%;
+    --retro-border-dark: 0 0% 20%;
+    --retro-border-light: 0 0% 90%;
     --retro-text: 0 0% 0%;
     --retro-text-light: 0 0% 25%;
     --retro-blue: 210 100% 50%;
-    --retro-shadow: 0 0% 0% / 0.3;
+    --retro-shadow: 0 0% 0% / 0.1;
     
     /* Modern semantic tokens */
-    --background: 202 4% 75%;
+    --background: 0 0% 100%;
     --foreground: 0 0% 0%;
-    --card: 202 8% 85%;
+    --card: 0 0% 98%;
     --card-foreground: 0 0% 0%;
     --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 202 12% 95%;
+    --secondary: 0 0% 95%;
     --secondary-foreground: 0 0% 25%;
-    --muted: 202 6% 70%;
+    --muted: 0 0% 90%;
     --muted-foreground: 0 0% 25%;
-    --accent: 202 12% 95%;
+    --accent: 0 0% 95%;
     --accent-foreground: 0 0% 0%;
-    --border: 202 8% 45%;
-    --input: 202 12% 95%;
+    --border: 0 0% 20%;
+    --input: 0 0% 95%;
     --ring: 210 100% 50%;
     --radius: 0rem;
     
@@ -43,20 +43,20 @@
   }
 
   .dark {
-    --background: 202 4% 75%;
+    --background: 0 0% 100%;
     --foreground: 0 0% 0%;
-    --card: 202 8% 85%;
+    --card: 0 0% 98%;
     --card-foreground: 0 0% 0%;
     --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 202 12% 95%;
+    --secondary: 0 0% 95%;
     --secondary-foreground: 0 0% 25%;
-    --muted: 202 6% 70%;
+    --muted: 0 0% 90%;
     --muted-foreground: 0 0% 25%;
-    --accent: 202 12% 95%;
+    --accent: 0 0% 95%;
     --accent-foreground: 0 0% 0%;
-    --border: 202 8% 45%;
-    --input: 202 12% 95%;
+    --border: 0 0% 20%;
+    --input: 0 0% 95%;
     --ring: 210 100% 50%;
   }
 }
@@ -70,9 +70,345 @@
   body {
     @apply bg-background text-foreground font-mono overflow-hidden;
     background: hsl(var(--retro-bg));
-    background-image: var(--desktop-pattern);
-    background-size: var(--desktop-pattern-size);
     font-family: 'Share Tech Mono', monospace;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'><path d='M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z' fill='%23FF69B4' stroke='%23FF1493' stroke-width='1'/><circle cx='12' cy='12' r='2' fill='%23FFB6C1' opacity='0.6'/></svg>") 12 12, auto;
+  }
+}
+
+/* CRT Effect Styles */
+@layer components {
+  .crt-screen {
+    position: relative;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+      0 0 0 2px #333,
+      inset 0 0 20px rgba(0, 0, 0, 0.8),
+      0 0 40px rgba(0, 0, 0, 0.5);
+    margin: -1px;
+  }
+
+  .crt-screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 182, 193, 0.12) 0%,
+      rgba(255, 182, 193, 0.06) 15%,
+      rgba(255, 182, 193, 0.12) 30%,
+      rgba(255, 182, 193, 0.06) 45%,
+      rgba(255, 182, 193, 0.12) 60%,
+      rgba(255, 182, 193, 0.06) 75%,
+      rgba(255, 182, 193, 0.12) 90%,
+      rgba(255, 182, 193, 0.06) 100%
+    );
+    background-size: 100% 12px;
+    z-index: 2;
+    pointer-events: none;
+    animation: electricFlow 2.3s linear infinite;
+  }
+
+  .crt-screen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.03) 100%
+      ),
+      linear-gradient(
+        45deg,
+        rgba(255, 182, 193, 0.02) 0%,
+        rgba(255, 182, 193, 0.01) 50%,
+        rgba(255, 182, 193, 0.02) 100%
+      );
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .crt-content {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(to bottom, #ffffff, #f8f8f8);
+    min-height: 100vh;
+    padding: 0;
+    filter: contrast(1.05) brightness(1.02) saturate(1.05) hue-rotate(1deg);
+  }
+
+  .crt-glitch {
+    animation: glitch 0.3s infinite;
+  }
+
+  .crt-flicker {
+    animation: flicker 1.2s infinite ease-in-out;
+  }
+
+  .crt-flicker-2 {
+    animation: flicker2 0.8s infinite ease-in-out;
+  }
+
+  .crt-flicker-3 {
+    animation: flicker3 1.5s infinite ease-in-out;
+  }
+
+  .crt-static {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(
+        circle at 30% 30%,
+        rgba(255, 182, 193, 0.03) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 70% 70%,
+        rgba(255, 182, 193, 0.03) 0%,
+        transparent 50%
+      );
+    z-index: 4;
+    pointer-events: none;
+    animation: electricPulse 3.2s ease-in-out infinite;
+  }
+
+  /* CRT Animations */
+  @keyframes electricFlow {
+    0% {
+      transform: translateY(-12px);
+    }
+    25% {
+      transform: translateY(-8px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+    75% {
+      transform: translateY(-2px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glitch {
+    0%, 100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  @keyframes flicker {
+    0%, 100% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0.95;
+    }
+    50% {
+      opacity: 0.92;
+    }
+    75% {
+      opacity: 0.97;
+    }
+  }
+
+  @keyframes flicker2 {
+    0%, 100% {
+      opacity: 1;
+    }
+    33% {
+      opacity: 0.88;
+    }
+    66% {
+      opacity: 0.94;
+    }
+  }
+
+  @keyframes flicker3 {
+    0%, 100% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 0.96;
+    }
+    40% {
+      opacity: 0.90;
+    }
+    60% {
+      opacity: 0.93;
+    }
+    80% {
+      opacity: 0.98;
+    }
+  }
+
+  @keyframes electricPulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    25% {
+      opacity: 0.6;
+      transform: scale(1.08);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.12);
+    }
+    75% {
+      opacity: 0.5;
+      transform: scale(1.05);
+    }
+  }
+
+  /* CRT Power on effect */
+  .crt-power-on {
+    animation: powerOn 2s ease-out;
+  }
+
+  @keyframes powerOn {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* CRT curvature effect */
+  .crt-curved {
+    border-radius: 20px 20px 60px 60px / 20px 20px 40px 40px;
+    overflow: hidden;
+  }
+
+  /* CRT bezel */
+  .crt-bezel {
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+
+  /* Phosphor glow effect for text */
+  .crt-text {
+    text-shadow: 
+      0 0 1px currentColor,
+      0 0 2px currentColor,
+      0 0 3px rgba(0, 255, 255, 0.3);
+    animation: textGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes textGlow {
+    0%, 100% {
+      text-shadow: 
+        0 0 1px currentColor,
+        0 0 2px currentColor,
+        0 0 3px rgba(0, 255, 255, 0.3);
+    }
+    50% {
+      text-shadow: 
+        0 0 2px currentColor,
+        0 0 4px currentColor,
+        0 0 6px rgba(0, 255, 255, 0.6);
+    }
+  }
+
+  /* Enhanced window effects for CRT */
+  .window.crt-flicker {
+    animation: windowFlicker 1.5s infinite ease-in-out;
+  }
+
+  @keyframes windowFlicker {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.94;
+    }
+  }
+
+  /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    .window {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .window-title-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .desktop-icon {
+      min-height: 60px;
+    }
+    
+    .sound-folder {
+      min-height: 60px;
+    }
+
+    /* Enhanced CRT effects for mobile */
+    .crt-screen::before {
+      background-size: 100% 12px;
+      animation: electricFlow 1s linear infinite;
+    }
+
+    .crt-flicker {
+      animation: flicker 0.8s infinite ease-in-out;
+    }
+
+    .crt-static {
+      animation: electricPulse 1.5s ease-in-out infinite;
+    }
+
+    .window.crt-flicker {
+      animation: windowFlicker 1s infinite ease-in-out;
+    }
+
+    .crt-content {
+      filter: contrast(1.12) brightness(0.96) saturate(1.15) hue-rotate(3deg);
+    }
+
+    .crt-text {
+      text-shadow: 
+        0 0 2px currentColor,
+        0 0 4px currentColor,
+        0 0 6px rgba(0, 255, 255, 0.4);
+    }
   }
 }
 
@@ -95,6 +431,7 @@
   .desktop-icon {
     @apply flex flex-col items-center p-2 rounded cursor-pointer transition-all duration-200;
     @apply hover:bg-primary/20 active:bg-primary/40;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'><path d='M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z' fill='%23FF1493' stroke='%23FF69B4' stroke-width='1.5'/><circle cx='12' cy='12' r='3' fill='%23FFB6C1' opacity='0.8'/></svg>") 12 12, pointer;
   }
   
   .desktop-icon.selected {

@@ -44,14 +44,15 @@ export const DesktopIcon = ({
         iconClass,
         isSelected && 'selected',
         isPlaying && 'animate-pulse',
+        'touch-manipulation',
         className
       )}
       onClick={handleClick}
     >
-      <div className="w-12 h-12 mb-1 flex items-center justify-center text-2xl">
+      <div className="w-10 h-10 md:w-12 md:h-12 mb-1 flex items-center justify-center text-xl md:text-2xl">
         {icon}
       </div>
-      <span className="text-xs text-center max-w-16 break-words leading-tight">
+      <span className="text-xs text-center max-w-20 md:max-w-24 break-words leading-tight">
         {label}
       </span>
     </div>
