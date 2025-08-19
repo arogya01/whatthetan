@@ -1,0 +1,37 @@
+import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+
+interface MacWindowProps {
+  title: string;
+  children: ReactNode;
+  className?: string;
+  width?: string;
+  height?: string;
+}
+
+export const MacWindow = ({ 
+  title, 
+  children, 
+  className,
+  width = "w-96",
+  height = "h-64"
+}: MacWindowProps) => {
+  return (
+    <div className={cn("window", width, height, className)}>
+      <div className="window-title-bar flex items-center justify-between">
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 bg-destructive rounded-full border border-destructive/60"></div>
+          <div className="w-3 h-3 bg-yellow-400 rounded-full border border-yellow-600"></div>
+          <div className="w-3 h-3 bg-green-400 rounded-full border border-green-600"></div>
+        </div>
+        <div className="text-xs font-bold text-foreground flex-1 text-center">
+          {title}
+        </div>
+        <div className="w-16"></div>
+      </div>
+      <div className="p-4 bg-card flex-1 overflow-auto">
+        {children}
+      </div>
+    </div>
+  );
+};
