@@ -5,6 +5,7 @@ import { MenuBar } from '@/components/MenuBar';
 
 const Index = () => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
+  const [folders, setFolders] = useState(['pawsitives', 'negaswiss']);
 
   const openWindow = (windowId: string) => {
     if (!openWindows.includes(windowId)) {
@@ -39,20 +40,25 @@ const Index = () => {
     }
   };
 
-  const handleSoundFolder1 = () => {
-    // Play a cheerful notification sound
+  const handlePawsitivesOpen = () => {
+    // Play sound fx 1 - cheerful notification sound
     playSound(523.25, 150); // C5
     setTimeout(() => playSound(659.25, 150), 100); // E5
     setTimeout(() => playSound(783.99, 200), 200); // G5
-    openWindow('sound1');
+    openWindow('pawsitives');
   };
 
-  const handleSoundFolder2 = () => {
-    // Play a retro computer beep sequence
+  const handleNegaswissDelete = () => {
+    // Play sound fx 2 - retro computer beep sequence  
     playSound(800, 100);
     setTimeout(() => playSound(600, 100), 120);
     setTimeout(() => playSound(400, 150), 240);
-    openWindow('sound2');
+    
+    // Remove the folder from the list
+    setFolders(folders.filter(folder => folder !== 'negaswiss'));
+    
+    // Show deletion confirmation
+    openWindow('deleteConfirm');
   };
 
   return (
@@ -85,22 +91,26 @@ const Index = () => {
           />
         </div>
 
-        {/* Sound Effect Folders */}
+        {/* Custom Folders */}
         <div className="absolute bottom-4 left-4 space-y-4">
-          <DesktopIcon
-            icon="🔊"
-            label="Sound FX 1"
-            onClick={handleSoundFolder1}
-            isFolder={true}
-            className="sound-folder"
-          />
-          <DesktopIcon
-            icon="🎵"
-            label="Sound FX 2"
-            onClick={handleSoundFolder2}
-            isFolder={true}
-            className="sound-folder"
-          />
+          {folders.includes('pawsitives') && (
+            <DesktopIcon
+              icon="🐾"
+              label="pawsitives"
+              onClick={handlePawsitivesOpen}
+              isFolder={true}
+              className="sound-folder"
+            />
+          )}
+          {folders.includes('negaswiss') && (
+            <DesktopIcon
+              icon="🗑️"
+              label="negaswiss"
+              onClick={handleNegaswissDelete}
+              isFolder={true}
+              className="sound-folder"
+            />
+          )}
         </div>
 
         {/* Windows */}
@@ -162,57 +172,56 @@ const Index = () => {
           </MacWindow>
         )}
 
-        {openWindows.includes('sound1') && (
+        {openWindows.includes('pawsitives') && (
           <MacWindow 
-            title="🔊 Sound Effects Collection 1" 
-            width="w-72" 
-            height="h-64"
+            title="🐾 Pawsitives Collection" 
+            width="w-80" 
+            height="h-72"
             className="absolute top-60 left-60"
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
-                <div className="text-4xl mb-2">🎵</div>
-                <div className="font-bold">Notification Sounds</div>
+                <div className="text-4xl mb-2">🐕🐱</div>
+                <div className="font-bold">Positive Vibes Only!</div>
               </div>
               
               <div className="bg-muted p-3 rounded border">
                 <div className="text-xs space-y-1">
-                  <div>♪ Cheerful Chime</div>
-                  <div>♪ Success Bell</div>
-                  <div>♪ Happy Notification</div>
+                  <div>🎵 Happy Paws Melody</div>
+                  <div>🎵 Cheerful Tail Wag Sound</div>
+                  <div>🎵 Purr-fect Notification</div>
+                  <div>🎵 Playful Bark Sequence</div>
                 </div>
               </div>
 
               <div className="text-center text-xs text-muted-foreground">
-                Sound played successfully! 🎉
+                Pawsitive sounds activated! 🎉
               </div>
             </div>
           </MacWindow>
         )}
 
-        {openWindows.includes('sound2') && (
+        {openWindows.includes('deleteConfirm') && (
           <MacWindow 
-            title="🎵 Sound Effects Collection 2" 
+            title="🗑️ Folder Deleted" 
             width="w-72" 
-            height="h-64"
+            height="h-48"
             className="absolute top-80 left-80"
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
-                <div className="text-4xl mb-2">🤖</div>
-                <div className="font-bold">Retro Computer Sounds</div>
+                <div className="text-4xl mb-2">💥</div>
+                <div className="font-bold">Negaswiss Deleted!</div>
               </div>
               
-              <div className="bg-muted p-3 rounded border">
-                <div className="text-xs space-y-1 font-mono">
-                  <div>► System Beep Sequence</div>
-                  <div>► Classic Alert Tone</div>
-                  <div>► Retro Processing Sound</div>
+              <div className="bg-destructive/20 border border-destructive/40 p-3 rounded">
+                <div className="text-xs text-center">
+                  Folder "negaswiss" has been permanently deleted with retro sound effects!
                 </div>
               </div>
 
               <div className="text-center text-xs text-muted-foreground">
-                Retro beeps activated! 🔊
+                Deletion complete! 🔊
               </div>
             </div>
           </MacWindow>
