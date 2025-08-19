@@ -6,20 +6,25 @@ import { CRTScreen } from '@/components/CRTScreen';
 
 const Index = () => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
-  const [folders, setFolders] = useState(['This Love', 'I did something bad']);
+  const [folders, setFolders] = useState(['All Too Well', 'I did something bad']);
   const [showAccessModal, setShowAccessModal] = useState(true);
   const [accessAnswer, setAccessAnswer] = useState('');
   const [hasAccess, setHasAccess] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const checkAccess = () => {
     console.log(accessAnswer);
     if (accessAnswer.toLowerCase().trim() === "ain't nothin but a heartache") {
       setHasAccess(true);
       setShowAccessModal(false);
+      setShowConfetti(true);
       // Play success sound
       playSound(523.25, 150); // C5
       setTimeout(() => playSound(659.25, 150), 100); // E5
       setTimeout(() => playSound(783.99, 200), 200); // G5
+      
+      // Hide confetti after 3 seconds
+      setTimeout(() => setShowConfetti(false), 3000);
     } else {
       // Play error sound
       playSound(200, 300);
@@ -66,7 +71,7 @@ const Index = () => {
     }
   };
 
-  const handleThisLoveOpen = () => {
+  const handleAllTooWellOpen = () => {
     if (!hasAccess) {
       playSound(200, 300); // Error sound
       return;
@@ -75,7 +80,7 @@ const Index = () => {
     playSound(523.25, 150); // C5
     setTimeout(() => playSound(659.25, 150), 100); // E5
     setTimeout(() => playSound(783.99, 200), 200); // G5
-    openWindow('This Love');
+    openWindow('All Too Well');
   };
 
   const handleIDidSomethingBadDelete = () => {
@@ -145,17 +150,56 @@ const Index = () => {
             </div>
           </div>
         )}
+
+        {/* Confetti Animation */}
+        {showConfetti && (
+          <>
+            <div className="fixed inset-0 pointer-events-none z-40">
+              {[...Array(100)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: '-10px',
+                    width: '4px',
+                    height: '4px',
+                    backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43'][Math.floor(Math.random() * 10)],
+                    borderRadius: Math.random() > 0.5 ? '50%' : '0',
+                    animation: `confetti-fall ${2 + Math.random() * 3}s linear forwards`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    transform: `rotate(${Math.random() * 360}deg)`,
+                  }}
+                />
+              ))}
+            </div>
+            <style dangerouslySetInnerHTML={{
+              __html: `
+                @keyframes confetti-fall {
+                  0% {
+                    transform: translateY(-10px) rotate(0deg);
+                    opacity: 1;
+                  }
+                  100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                  }
+                }
+              `
+            }} />
+          </>
+        )}
         
         {/* Desktop */}
         <div className="h-full p-4 relative">
           {/* Custom Folders - Mobile Grid / Desktop Absolute */}
           <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-0 md:absolute md:top-4 md:right-4 md:space-y-4">          
           {/* Custom folders with sound effects */}
-          {folders.includes('This Love') && (
+          {folders.includes('All Too Well') && (
             <DesktopIcon
               icon="📁"
-              label="This Love"
-              onClick={handleThisLoveOpen}
+              label="All Too Well"
+              onClick={handleAllTooWellOpen}
               isFolder={true}
               className="sound-folder"
             />
@@ -232,32 +276,32 @@ const Index = () => {
           </MacWindow>
         )}
 
-        {openWindows.includes('This Love') && (
+        {openWindows.includes('All Too Well') && (
           <MacWindow 
-            title="💕 This Love Collection" 
+            title="🧣 All Too Well Collection" 
             width="w-80" 
             height="h-72"
             className="hidden md:block md:absolute md:top-60 md:left-60"
-            onClose={() => closeWindow('This Love')}
+            onClose={() => closeWindow('All Too Well')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
-                <div className="text-4xl mb-2">💕✨</div>
-                <div className="font-bold">"This love is good, this love is bad"</div>
-                <div className="text-xs text-muted-foreground">This love is alive, back from the dead</div>
+                <div className="text-4xl mb-2">🧣✨</div>
+                <div className="font-bold">"I remember it all too well"</div>
+                <div className="text-xs text-muted-foreground">The scarf, the autumn, the memories</div>
               </div>
               
               <div className="bg-muted p-3 rounded border">
                 <div className="text-xs space-y-1">
-                  <div>🎵 This Love - 1989</div>
-                  <div>🎵 Good vibes only</div>
-                  <div>🎵 Loving melodies</div>
-                  <div>🎵 Positive energy</div>
+                  <div>🎵 All Too Well - Red</div>
+                  <div>🎵 10 minute version</div>
+                  <div>🎵 Heartbreak anthem</div>
+                  <div>🎵 Autumn vibes</div>
                 </div>
               </div>
 
               <div className="text-center text-xs text-muted-foreground">
-                This love is alive! 💕
+                We remember it all too well! 🧣
               </div>
             </div>
           </MacWindow>
@@ -360,32 +404,32 @@ const Index = () => {
           </MacWindow>
         )}
 
-        {openWindows.includes('This Love') && (
+        {openWindows.includes('All Too Well') && (
           <MacWindow 
-            title="💕 This Love Collection" 
+            title="🧣 All Too Well Collection" 
             width="w-full" 
             height="h-auto"
             className="md:hidden"
-            onClose={() => closeWindow('This Love')}
+            onClose={() => closeWindow('All Too Well')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
-                <div className="text-4xl mb-2">💕✨</div>
-                <div className="font-bold">"This love is good, this love is bad"</div>
-                <div className="text-xs text-muted-foreground">This love is alive, back from the dead</div>
+                <div className="text-4xl mb-2">🧣✨</div>
+                <div className="font-bold">"I remember it all too well"</div>
+                <div className="text-xs text-muted-foreground">The scarf, the autumn, the memories</div>
               </div>
               
               <div className="bg-muted p-3 rounded border">
                 <div className="text-xs space-y-1">
-                  <div>🎵 This Love - 1989</div>
-                  <div>🎵 Good vibes only</div>
-                  <div>🎵 Loving melodies</div>
-                  <div>🎵 Positive energy</div>
+                  <div>🎵 All Too Well - Red</div>
+                  <div>🎵 10 minute version</div>
+                  <div>🎵 Heartbreak anthem</div>
+                  <div>🎵 Autumn vibes</div>
                 </div>
               </div>
 
               <div className="text-center text-xs text-muted-foreground">
-                This love is alive! 💕
+                We remember it all too well! 🧣
               </div>
             </div>
           </MacWindow>
