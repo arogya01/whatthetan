@@ -54,11 +54,19 @@ const Index = () => {
     setTimeout(() => playSound(600, 100), 120);
     setTimeout(() => playSound(400, 150), 240);
     
-    // Remove the folder from the list
-    setFolders(folders.filter(folder => folder !== 'negaswiss'));
-    
-    // Show deletion confirmation
+    // Show deletion confirmation first (don't remove folder yet)
     openWindow('deleteConfirm');
+  };
+
+  const confirmDeletion = () => {
+    // Actually remove the folder after confirmation
+    setFolders(folders.filter(folder => folder !== 'negaswiss'));
+    closeWindow('deleteConfirm');
+  };
+
+  const cancelDeletion = () => {
+    // Just close the confirmation window
+    closeWindow('deleteConfirm');
   };
 
   return (
@@ -204,26 +212,35 @@ const Index = () => {
 
         {openWindows.includes('deleteConfirm') && (
           <MacWindow 
-            title="🗑️ Folder Deleted" 
-            width="w-72" 
-            height="h-48"
+            title="🗑️ Delete Confirmation" 
+            width="w-80" 
+            height="h-56"
             className="absolute top-80 left-80"
-            onClose={() => closeWindow('deleteConfirm')}
+            onClose={cancelDeletion}
           >
-            <div className="space-y-3 text-sm">
+            <div className="space-y-4 text-sm">
               <div className="text-center">
-                <div className="text-4xl mb-2">💥</div>
-                <div className="font-bold">Negaswiss Deleted!</div>
+                <div className="text-4xl mb-2">⚠️</div>
+                <div className="font-bold">Delete "negaswiss" folder?</div>
               </div>
               
-              <div className="bg-destructive/20 border border-destructive/40 p-3 rounded">
-                <div className="text-xs text-center">
-                  Folder "negaswiss" has been permanently deleted with retro sound effects!
-                </div>
+              <div className="bg-yellow-100 border border-yellow-400 p-3 rounded text-xs text-center">
+                This action cannot be undone. The folder will be permanently deleted.
               </div>
 
-              <div className="text-center text-xs text-muted-foreground">
-                Deletion complete! 🔊
+              <div className="flex space-x-2 justify-center">
+                <button 
+                  className="btn-retro text-xs px-3 py-1"
+                  onClick={cancelDeletion}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="btn-retro text-xs px-3 py-1 bg-destructive text-destructive-foreground"
+                  onClick={confirmDeletion}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </MacWindow>
