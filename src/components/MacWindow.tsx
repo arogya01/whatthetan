@@ -7,6 +7,7 @@ interface MacWindowProps {
   className?: string;
   width?: string;
   height?: string;
+  onClose?: () => void;
 }
 
 export const MacWindow = ({ 
@@ -14,13 +15,18 @@ export const MacWindow = ({
   children, 
   className,
   width = "w-96",
-  height = "h-64"
+  height = "h-64",
+  onClose
 }: MacWindowProps) => {
   return (
     <div className={cn("window", width, height, className)}>
       <div className="window-title-bar flex items-center justify-between">
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 bg-destructive rounded-full border border-destructive/60"></div>
+          <button 
+            className="w-3 h-3 bg-destructive rounded-full border border-destructive/60 hover:bg-destructive/80 transition-colors"
+            onClick={onClose}
+            title="Close"
+          ></button>
           <div className="w-3 h-3 bg-yellow-400 rounded-full border border-yellow-600"></div>
           <div className="w-3 h-3 bg-green-400 rounded-full border border-green-600"></div>
         </div>

@@ -67,7 +67,7 @@ const Index = () => {
       
       {/* Desktop */}
       <div className="h-full p-4 relative">
-        {/* Desktop Icons */}
+        {/* Custom Folders - Upper Right */}
         <div className="absolute top-4 right-4 space-y-4">
           <DesktopIcon
             icon="📁"
@@ -89,10 +89,8 @@ const Index = () => {
             label="ABOUT ME"
             onClick={() => openWindow('about')}
           />
-        </div>
-
-        {/* Custom Folders */}
-        <div className="absolute bottom-4 left-4 space-y-4">
+          
+          {/* Custom folders with sound effects */}
           {folders.includes('pawsitives') && (
             <DesktopIcon
               icon="🐾"
@@ -120,6 +118,7 @@ const Index = () => {
             width="w-80" 
             height="h-96"
             className="absolute top-20 left-20"
+            onClose={() => closeWindow('projects')}
           >
             <div className="space-y-2 text-sm">
               <div className="font-bold mb-3">🚀 Mis Proyectos:</div>
@@ -145,6 +144,7 @@ const Index = () => {
             width="w-96" 
             height="h-80"
             className="absolute top-40 left-40"
+            onClose={() => closeWindow('about')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center mb-4">
@@ -178,6 +178,7 @@ const Index = () => {
             width="w-80" 
             height="h-72"
             className="absolute top-60 left-60"
+            onClose={() => closeWindow('pawsitives')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
@@ -207,6 +208,7 @@ const Index = () => {
             width="w-72" 
             height="h-48"
             className="absolute top-80 left-80"
+            onClose={() => closeWindow('deleteConfirm')}
           >
             <div className="space-y-3 text-sm">
               <div className="text-center">
