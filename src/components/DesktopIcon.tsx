@@ -36,7 +36,7 @@ export const DesktopIcon = ({
     onClick?.();
   };
 
-  const iconClass = isFolder ? 'sound-folder' : 'desktop-icon';
+  const iconClass = isFolder ? 'sound-folder group' : 'desktop-icon';
 
   return (
     <div

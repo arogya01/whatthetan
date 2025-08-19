@@ -123,7 +123,7 @@
   
   /* Sound folder styles */
   .sound-folder {
-    @apply desktop-icon relative group;
+    @apply desktop-icon relative;
     filter: drop-shadow(2px 2px 4px hsl(var(--retro-shadow)));
   }
   
