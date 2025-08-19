@@ -7,6 +7,31 @@ import { CRTScreen } from '@/components/CRTScreen';
 const Index = () => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
   const [folders, setFolders] = useState(['This Love', 'I did something bad']);
+  const [showAccessModal, setShowAccessModal] = useState(true);
+  const [accessAnswer, setAccessAnswer] = useState('');
+  const [hasAccess, setHasAccess] = useState(false);
+
+  const checkAccess = () => {
+    console.log(accessAnswer);
+    if (accessAnswer.toLowerCase().trim() === "ain't nothin but a heartache") {
+      setHasAccess(true);
+      setShowAccessModal(false);
+      // Play success sound
+      playSound(523.25, 150); // C5
+      setTimeout(() => playSound(659.25, 150), 100); // E5
+      setTimeout(() => playSound(783.99, 200), 200); // G5
+    } else {
+      // Play error sound
+      playSound(200, 300);
+      setAccessAnswer('');
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      checkAccess();
+    }
+  };
 
   const openWindow = (windowId: string) => {
     if (!openWindows.includes(windowId)) {
@@ -42,6 +67,10 @@ const Index = () => {
   };
 
   const handleThisLoveOpen = () => {
+    if (!hasAccess) {
+      playSound(200, 300); // Error sound
+      return;
+    }
     // Play sound fx 1 - cheerful notification sound
     playSound(523.25, 150); // C5
     setTimeout(() => playSound(659.25, 150), 100); // E5
@@ -50,6 +79,10 @@ const Index = () => {
   };
 
   const handleIDidSomethingBadDelete = () => {
+    if (!hasAccess) {
+      playSound(200, 300); // Error sound
+      return;
+    }
     // Play sound fx 2 - retro computer beep sequence  
     playSound(800, 100);
     setTimeout(() => playSound(600, 100), 120);
@@ -75,7 +108,45 @@ const Index = () => {
       <CRTScreen intensity="medium">
         <MenuBar />
         
-                {/* Desktop */}
+        {/* Access Modal */}
+        {showAccessModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 shadow-xl border">
+              <div className="text-center mb-6">
+                <div className="text-4xl mb-4">🔐</div>
+                <h2 className="text-xl font-bold mb-2">Access Required</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Tell me why...
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={accessAnswer}
+                  onChange={(e) => setAccessAnswer(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Type your answer here..."
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  autoFocus
+                />
+                
+                <button
+                  onClick={checkAccess}
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                >
+                  Submit Answer
+                </button>
+                
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                  Hint: It's a classic song lyric...
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Desktop */}
         <div className="h-full p-4 relative">
           {/* Custom Folders - Mobile Grid / Desktop Absolute */}
           <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-0 md:absolute md:top-4 md:right-4 md:space-y-4">          
