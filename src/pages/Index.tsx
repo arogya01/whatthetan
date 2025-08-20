@@ -10,7 +10,7 @@ const Index = () => {
   const [folders, setFolders] = useState([
     "All Too Well",
     "Casually Creul",
-    "with love 💙",
+    "of you/for you 🧡",
   ]);
 
   // Check sessionStorage for cached access on component mount
@@ -175,7 +175,7 @@ const Index = () => {
     playSound(400, 100);
     setTimeout(() => playSound(500, 100), 120);
     setTimeout(() => playSound(600, 150), 240);
-    openWindow("with love 💙");
+    openWindow("of you/for you 🧡");
   };
 
   return (
@@ -279,7 +279,7 @@ const Index = () => {
             {folders.includes("All Too Well") && (
               <div className="absolute" style={{ top: '5%', left: '10%' }}>
                 <DesktopIcon
-                  icon="🧣💫"
+                  icon="🧣"
                   label="All Too Well"
                   onClick={handleAllTooWellOpen}
                   isFolder={true}
@@ -290,7 +290,7 @@ const Index = () => {
             {folders.includes("Casually Creul") && (
               <div className="absolute" style={{ top: '5%', left: '60%' }}>
                 <DesktopIcon
-                  icon="🕴💨"
+                  icon="🕴"
                   label="Casually Creul"
                   onClick={handleCasuallyCreulOpen}
                   isFolder={true}
@@ -298,11 +298,11 @@ const Index = () => {
                 />
               </div>
             )}
-            {folders.includes("with love 💙") && (
+            {folders.includes("of you/for you 🧡") && (
               <div className="absolute" style={{ top: '40%', left: '35%' }}>
                 <DesktopIcon
-                  icon="🧠💭"
-                  label="with love 💙"
+                  icon="💭"
+                  label="of you/for you 🧡"
                   onClick={handleMiscThotsOpen}
                   isFolder={true}
                   className="sound-folder"
@@ -595,17 +595,17 @@ const Index = () => {
             </MacWindow>
           )}
 
-          {openWindows.includes("with love 💙") && (
+          {openWindows.includes("of you/for you 🧡") && (
             <MacWindow
-              title="💙 with love"
+              title="of you/for you 🧡"
               width="w-80"
               height="h-72"
               className="w-full md:w-80 h-auto md:h-72"
-              onClose={() => closeWindow("with love 💙")}
+              onClose={() => closeWindow("of you/for you 🧡")}
             >
               <div className="space-y-3 text-sm">
                 <div className="text-center mb-4">
-                  <div className="text-4xl mb-2">💙</div>
+                  <div className="text-4xl mb-2">🧡</div>
                   <div className="font-bold italic">Random Jottings</div>
                 </div>
 
