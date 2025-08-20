@@ -20,12 +20,12 @@ export const MacWindow = ({
 }: MacWindowProps) => {
   return (
     <div className={cn(
-      "window crt-flicker fixed inset-0 z-50 flex items-center justify-center p-4 md:relative md:inset-auto md:z-auto md:p-0",
+      "window crt-flicker fixed inset-0 z-50 flex items-center justify-center p-4",
       width, 
       height, 
       className
     )}>
-      <div className="w-full max-w-md md:max-w-none md:w-auto bg-card border-2 border-t-secondary border-l-secondary border-r-border border-b-border rounded-none md:rounded-none shadow-lg md:shadow-none">
+      <div className="w-full max-w-md md:max-w-none md:w-auto bg-card border-2 border-t-secondary border-l-secondary border-r-border border-b-border rounded-none md:rounded-none shadow-lg md:shadow-none flex flex-col h-full">
       <div className="window-title-bar flex items-center justify-between">
         <div className="flex items-center space-x-1">
           <button 

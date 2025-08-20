@@ -75,7 +75,7 @@
   }
 }
 
-/* CRT Effect Styles */
+/* Heatwave Effect Styles */
 @layer components {
   .crt-screen {
     position: relative;
@@ -97,20 +97,17 @@
     right: 0;
     bottom: 0;
     background: linear-gradient(
-      to bottom,
-      rgba(255, 182, 193, 0.12) 0%,
-      rgba(255, 182, 193, 0.06) 15%,
-      rgba(255, 182, 193, 0.12) 30%,
-      rgba(255, 182, 193, 0.06) 45%,
-      rgba(255, 182, 193, 0.12) 60%,
-      rgba(255, 182, 193, 0.06) 75%,
-      rgba(255, 182, 193, 0.12) 90%,
-      rgba(255, 182, 193, 0.06) 100%
+      to top,
+      rgba(255, 182, 193, 0.02) 0%,
+      transparent 25%,
+      rgba(255, 182, 193, 0.04) 50%,
+      transparent 75%,
+      rgba(255, 182, 193, 0.02) 100%
     );
-    background-size: 100% 12px;
+    background-size: 100% 300px;
     z-index: 2;
     pointer-events: none;
-    animation: electricFlow 2.3s linear infinite;
+    animation: heatwave-scroll 8s linear infinite;
   }
 
   .crt-screen::after {
@@ -125,12 +122,6 @@
         ellipse at center,
         rgba(0, 0, 0, 0) 0%,
         rgba(0, 0, 0, 0.03) 100%
-      ),
-      linear-gradient(
-        45deg,
-        rgba(255, 182, 193, 0.02) 0%,
-        rgba(255, 182, 193, 0.01) 50%,
-        rgba(255, 182, 193, 0.02) 100%
       );
     z-index: 3;
     pointer-events: none;
@@ -146,19 +137,19 @@
   }
 
   .crt-glitch {
-    animation: glitch 0.3s infinite;
+    animation: heatwave-distort 4s infinite ease-in-out alternate;
   }
 
   .crt-flicker {
-    animation: flicker 1.2s infinite ease-in-out;
+    animation: heatwave-flicker 3s infinite ease-in-out;
   }
 
   .crt-flicker-2 {
-    animation: flicker2 0.8s infinite ease-in-out;
+    animation: heatwave-flicker 2s infinite ease-in-out;
   }
 
   .crt-flicker-3 {
-    animation: flicker3 1.5s infinite ease-in-out;
+    animation: heatwave-flicker 5s infinite ease-in-out;
   }
 
   .crt-static {
@@ -167,120 +158,52 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-      radial-gradient(
-        circle at 30% 30%,
-        rgba(255, 182, 193, 0.03) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 70% 70%,
-        rgba(255, 182, 193, 0.03) 0%,
-        transparent 50%
-      );
     z-index: 4;
     pointer-events: none;
-    animation: electricPulse 3.2s ease-in-out infinite;
+    animation: heatwave-shimmer 2s ease-in-out infinite alternate;
   }
 
-  /* CRT Animations */
-  @keyframes electricFlow {
+  /* Heatwave Animations */
+  @keyframes heatwave-scroll {
     0% {
-      transform: translateY(-12px);
-    }
-    25% {
-      transform: translateY(-8px);
+      background-position: 0 0;
+      opacity: 0;
     }
     50% {
-      transform: translateY(-4px);
-    }
-    75% {
-      transform: translateY(-2px);
+      opacity: 0.1;
     }
     100% {
-      transform: translateY(0);
+      background-position: 0 -600px;
+      opacity: 0;
     }
   }
 
-  @keyframes glitch {
-    0%, 100% {
-      transform: translate(0);
+  @keyframes heatwave-distort {
+    0% {
+      transform: skewX(0.1deg) skewY(0.05deg);
     }
-    20% {
-      transform: translate(-2px, 2px);
-    }
-    40% {
-      transform: translate(-2px, -2px);
-    }
-    60% {
-      transform: translate(2px, 2px);
-    }
-    80% {
-      transform: translate(2px, -2px);
+    100% {
+      transform: skewX(-0.1deg) skewY(-0.05deg);
     }
   }
 
-  @keyframes flicker {
+  @keyframes heatwave-flicker {
     0%, 100% {
       opacity: 1;
-    }
-    25% {
-      opacity: 0.95;
     }
     50% {
-      opacity: 0.92;
-    }
-    75% {
-      opacity: 0.97;
-    }
-  }
-
-  @keyframes flicker2 {
-    0%, 100% {
-      opacity: 1;
-    }
-    33% {
-      opacity: 0.88;
-    }
-    66% {
-      opacity: 0.94;
-    }
-  }
-
-  @keyframes flicker3 {
-    0%, 100% {
-      opacity: 1;
-    }
-    20% {
-      opacity: 0.96;
-    }
-    40% {
-      opacity: 0.90;
-    }
-    60% {
-      opacity: 0.93;
-    }
-    80% {
       opacity: 0.98;
     }
   }
-
-  @keyframes electricPulse {
-    0%, 100% {
-      opacity: 0.3;
+  
+  @keyframes heatwave-shimmer {
+    0% {
+      opacity: 0.01;
+      transform: scale(1.01);
+    }
+    100% {
+      opacity: 0.03;
       transform: scale(1);
-    }
-    25% {
-      opacity: 0.6;
-      transform: scale(1.08);
-    }
-    50% {
-      opacity: 0.8;
-      transform: scale(1.12);
-    }
-    75% {
-      opacity: 0.5;
-      transform: scale(1.05);
     }
   }
 

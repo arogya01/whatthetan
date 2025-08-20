@@ -45,17 +45,11 @@ export const CRTScreen: React.FC<CRTScreenProps> = ({
     };
   }, []);
 
-  const intensityClasses = {
-    low: 'crt-flicker',
-    medium: 'crt-flicker-2',
-    high: 'crt-flicker-3 crt-glitch'
-  };
-
   return (
     <div className={`crt-bezel ${className}`}>
       <div className={`crt-screen crt-curved ${isPoweredOn ? 'crt-power-on' : ''} h-full`}>
         <div className="crt-static"></div>
-        <div className={`crt-content ${glitchActive ? intensityClasses[intensity] : intensityClasses.low}`}>
+        <div className={`crt-content crt-flicker ${glitchActive ? 'crt-glitch' : ''}`}>
           {children}
         </div>
         {/* CRT Power Indicator */}
