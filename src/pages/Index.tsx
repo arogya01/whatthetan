@@ -14,7 +14,33 @@ const Index = () => {
 
   const checkAccess = () => {
     console.log(accessAnswer);
-    if (accessAnswer.toLowerCase().trim() === "ain't nothin but a heartache") {
+    
+    // Normalize the input for comparison
+    const normalizedInput = accessAnswer
+      .toLowerCase()
+      .trim()
+      // Remove extra spaces
+      .replace(/\s+/g, ' ')
+      // Handle different apostrophe characters
+      .replace(/[''′`]/g, "'")
+      // Handle different quote characters
+      .replace(/[""″]/g, '"')
+      // Handle different dash characters
+      .replace(/[–—−]/g, '-');
+    
+    // Define acceptable variations
+    const acceptableAnswers = [
+      "ain't nothin but a heartache",
+      "aint nothin but a heartache",
+      "ain't nothing but a heartache",
+      "aint nothing but a heartache",
+      "ain't nothin' but a heartache",
+      "aint nothin' but a heartache",
+      "ain't nothing' but a heartache",
+      "aint nothing' but a heartache"
+    ];
+    
+    if (acceptableAnswers.includes(normalizedInput)) {
       setHasAccess(true);
       setShowAccessModal(false);
       setShowConfetti(true);
