@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DesktopIcon } from "@/components/DesktopIcon";
 import { MacWindow } from "@/components/MacWindow";
 import { MenuBar } from "@/components/MenuBar";
 import { CRTScreen } from "@/components/CRTScreen";
+import VirWolf from "@/images/pn.jpg";
 
 const Index = () => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
-  const [folders, setFolders] = useState(["All Too Well", "Casually Creul"]);
+  const [folders, setFolders] = useState([
+    "All Too Well",
+    "Casually Creul",
+    "with love 💙",
+  ]);
 
   // Check sessionStorage for cached access on component mount
   const [showAccessModal, setShowAccessModal] = useState(() => {
@@ -22,6 +27,16 @@ const Index = () => {
   const [openToggles, setOpenToggles] = useState<{ [key: string]: boolean }>(
     {}
   );
+
+  const [quoteVisible, setQuoteVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setQuoteVisible(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const checkAccess = () => {
     console.log(accessAnswer);
@@ -151,9 +166,21 @@ const Index = () => {
     openWindow("Casually Creul");
   };
 
+  const handleMiscThotsOpen = () => {
+    if (!hasAccess) {
+      playSound(200, 300); // Error sound
+      return;
+    }
+    // Play sound fx
+    playSound(400, 100);
+    setTimeout(() => playSound(500, 100), 120);
+    setTimeout(() => playSound(600, 150), 240);
+    openWindow("with love 💙");
+  };
+
   return (
     <div className="h-screen p-0">
-      <CRTScreen intensity="medium">
+      {/* <CRTScreen intensity="medium"> */}
         <MenuBar />
 
         {/* Access Modal */}
@@ -245,27 +272,42 @@ const Index = () => {
         )}
 
         {/* Desktop */}
-        <div className="h-full p-4 relative">
-          {/* Custom Folders - Mobile Grid / Desktop Absolute */}
-          <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-0 md:absolute md:top-4 md:right-4 md:space-y-4">
-            {/* Custom folders with sound effects */}
+        <div className="h-screen p-4 relative">
+          {/* Custom Folders - Randomly Placed */}
+          <div className="relative h-full">
+            {/* Custom folders with sound effects - randomly positioned */}
             {folders.includes("All Too Well") && (
-              <DesktopIcon
-                icon="📁"
-                label="All Too Well"
-                onClick={handleAllTooWellOpen}
-                isFolder={true}
-                className="sound-folder"
-              />
+              <div className="absolute" style={{ top: '5%', left: '10%' }}>
+                <DesktopIcon
+                  icon="🧣💫"
+                  label="All Too Well"
+                  onClick={handleAllTooWellOpen}
+                  isFolder={true}
+                  className="sound-folder"
+                />
+              </div>
             )}
             {folders.includes("Casually Creul") && (
-              <DesktopIcon
-                icon="📁"
-                label="Casually Creul"
-                onClick={handleCasuallyCreulOpen}
-                isFolder={true}
-                className="sound-folder"
-              />
+              <div className="absolute" style={{ top: '5%', left: '60%' }}>
+                <DesktopIcon
+                  icon="🕴💨"
+                  label="Casually Creul"
+                  onClick={handleCasuallyCreulOpen}
+                  isFolder={true}
+                  className="sound-folder"
+                />
+              </div>
+            )}
+            {folders.includes("with love 💙") && (
+              <div className="absolute" style={{ top: '40%', left: '35%' }}>
+                <DesktopIcon
+                  icon="🧠💭"
+                  label="with love 💙"
+                  onClick={handleMiscThotsOpen}
+                  isFolder={true}
+                  className="sound-folder"
+                />
+              </div>
             )}
           </div>
 
@@ -282,7 +324,11 @@ const Index = () => {
               <div className="space-y-3 text-sm">
                 <div className="text-center mb-4">
                   <div className="text-4xl mb-2">🧣✨</div>
-                  <div className="font-bold italic text-xs my-8">
+                  <div 
+                    className={`font-bold italic text-xs my-8 transition-opacity duration-1000 ease-in-out ${
+                      quoteVisible ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
                     wanna be defined by the things that I love <br /> Not the
                     things I hate <br /> Not the things I'm afraid of, <br /> I'm
                     afraid of or <br /> the things that haunt me in the middle
@@ -410,6 +456,28 @@ const Index = () => {
                     )}
                   </div>
 
+                  {/* Wonder Woman */}
+                  <div className="border rounded p-2">
+                    <button
+                      className="flex items-center justify-between w-full text-left font-medium italic hover:bg-muted/50 transition-colors"
+                      onClick={() => handleToggleClick("wonder-woman")}
+                    >
+                      <span>Wonder Woman</span>
+                      <span
+                        className={`transition-transform ${
+                          openToggles["wonder-woman"] ? "rotate-90" : ""
+                        }`}
+                      >
+                        ▶
+                      </span>
+                    </button>
+                    {openToggles["wonder-woman"] && (
+                      <div className="mt-2 pl-4 text-xs text-muted-foreground border-l-2 border-muted">
+                        I don't know you don't give yourself enough credit, but overcoming your drowning past and doing super well, it's like, half of the people would have given up, please give yourself more credit than you do :)
+                      </div>
+                    )}
+                  </div>
+
                   {/* PEOPLE WATCHING */}
                   <div className="border rounded p-2">
                     <button
@@ -427,7 +495,7 @@ const Index = () => {
                     </button>
                     {openToggles["people"] && (
                       <div className="mt-2 pl-4 text-xs text-muted-foreground border-l-2 border-muted">
-                        didn't like in the beginning, but I guess have come to
+                        didn't like it in the beginning, but I guess have come to
                         realize that it's just, umm, fun :)
                       </div>
                     )}
@@ -526,8 +594,37 @@ const Index = () => {
               </div>
             </MacWindow>
           )}
+
+          {openWindows.includes("with love 💙") && (
+            <MacWindow
+              title="💙 with love"
+              width="w-80"
+              height="h-72"
+              className="w-full md:w-80 h-auto md:h-72"
+              onClose={() => closeWindow("with love 💙")}
+            >
+              <div className="space-y-3 text-sm">
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">💙</div>
+                  <div className="font-bold italic">Random Jottings</div>
+                </div>
+
+                <div className="space-y-2">
+                  <img
+                    src={VirWolf}
+                    alt="I always have such need to merely talk to you. Even when I have nothing to talk about - with you I just seem to go right ahead and sort of invent it. I invent it for you. - Virginia Woolf, from a letter to Vita Sackville West"
+                  />
+                </div>
+              </div>
+            </MacWindow>
+          )}
         </div>
-      </CRTScreen>
+
+        {/* Footer */}
+        <footer className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-black font-sans">
+          <p>With Love 💙</p>
+        </footer>
+      {/* </CRTScreen> */}
     </div>
   );
 };

@@ -68,10 +68,31 @@
   }
 
   body {
-    @apply bg-background text-foreground font-mono overflow-hidden;
-    background: hsl(var(--retro-bg));
+    @apply text-foreground font-mono overflow-hidden;
     font-family: 'Share Tech Mono', monospace;
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'><path d='M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z' fill='%23FF69B4' stroke='%23FF1493' stroke-width='1'/><circle cx='12' cy='12' r='2' fill='%23FFB6C1' opacity='0.6'/></svg>") 12 12, auto;
+    
+    /* Aurora Gradient Background */
+    background-color: #f0f0f0;
+    --grad-1: radial-gradient(at 20% 30%, hsla(35, 80%, 80%, 0.15) 0px, transparent 50%);
+    --grad-2: radial-gradient(at 80% 20%, hsla(15, 80%, 80%, 0.15) 0px, transparent 50%);
+    --grad-3: radial-gradient(at 30% 80%, hsla(55, 80%, 80%, 0.15) 0px, transparent 50%);
+    --grad-4: radial-gradient(at 70% 70%, hsla(35, 40%, 80%, 0.15) 0px, transparent 50%);
+    background-image: var(--grad-1), var(--grad-2), var(--grad-3), var(--grad-4);
+    background-size: 200% 200%;
+    animation: gradientAnimation 40s ease infinite;
+  }
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%;
+  }
+  50% {
+    background-position: 100% 100%, 0% 100%, 100% 0%, 0% 0%;
+  }
+  100% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%;
   }
 }
 
@@ -353,12 +374,13 @@
   /* Desktop Icon */
   .desktop-icon {
     @apply flex flex-col items-center p-2 rounded cursor-pointer transition-all duration-200;
-    @apply hover:bg-primary/20 active:bg-primary/40;
+    @apply hover:bg-orange-100/20 active:bg-orange-200/30 focus:outline-none focus:ring-2 focus:ring-orange-300/50 focus:ring-offset-1;
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'><path d='M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z' fill='%23FF1493' stroke='%23FF69B4' stroke-width='1.5'/><circle cx='12' cy='12' r='3' fill='%23FFB6C1' opacity='0.8'/></svg>") 12 12, pointer;
   }
   
   .desktop-icon.selected {
-    @apply bg-primary text-primary-foreground;
+    @apply bg-orange-200/30 text-orange-900 border border-orange-300/50;
+    backdrop-filter: blur(4px);
   }
   
   /* Button 3D Effect */
@@ -395,5 +417,9 @@
   .sound-folder:active {
     transform: translateY(0);
     filter: drop-shadow(1px 1px 2px hsl(var(--retro-shadow)));
+  }
+  
+  .sound-folder:focus {
+    outline: none;
   }
 }
